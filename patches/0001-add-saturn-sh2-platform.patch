@@ -1,0 +1,57 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: saturn-linux contributors
+Date: Mon, 31 Aug 2026 14:00:00 -0300
+Subject: [PATCH] sh: add initial Sega Saturn SH-2 platform selection
+
+This patch is intended to be applied on top of Linux v4.0.
+The Saturn uses the existing generic SH-2 CPU support; this adds only
+its CPU subtype and machine selection. Hardware drivers remain for later
+bring-up stages.
+
+---
+ arch/sh/Kconfig        | 6 ++++++
+ arch/sh/boards/Kconfig | 11 +++++++++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 000000000000..000000000000 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -1,3 +1,3 @@
+@@
+ # SH-2 Processor Support
+ 
++config CPU_SUBTYPE_SEGA_SATURN
++	bool "Support Sega Saturn processor"
++	select CPU_SH2
++	help
++	  Select this option when building Linux for the Hitachi SH-2
++	  processor used by the Sega Saturn.
++
+ config CPU_SUBTYPE_SH7619
+ 	bool "Support SH7619 processor"
+ 	select CPU_SH2
+@@ -2,3 +8,3 @@
+ 
+ source "arch/sh/boards/Kconfig"
+ 
+ diff --git a/arch/sh/boards/Kconfig b/arch/sh/boards/Kconfig
+ index 000000000000..000000000000 100644
+ --- a/arch/sh/boards/Kconfig
+ +++ b/arch/sh/boards/Kconfig
+ @@ -1,3 +1,3 @@
+  menu "Board support"
++
++config SH_SATURN
++	bool "Sega Saturn"
++	depends on CPU_SUBTYPE_SEGA_SATURN
++	help
++	  Enable support for the Sega Saturn console platform.
++
+@@ -999,3 +1007,4 @@
+  source "arch/sh/boards/mach-rsk/Kconfig"
++source "arch/sh/boards/mach-saturn/Kconfig"
+ 
+ if SH_MAGIC_PANEL_R2
+-- 
+2.0.0
