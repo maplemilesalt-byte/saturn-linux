@@ -3,59 +3,56 @@ From: saturn-linux contributors
 Date: Mon, 31 Aug 2026 14:00:00 -0300
 Subject: [PATCH] sh: add initial Sega Saturn SH-2 platform selection
 
-This patch is for Linux v4.0. It adds the Saturn CPU subtype and
-initial board selection. Hardware initialization is intentionally left
-for later bring-up stages.
+This patch is for Linux v4.0 as vendored under vendor/linux-4.0.
+It adds the Saturn CPU subtype and initial board selection. Hardware
+initialization is intentionally left for later bring-up stages.
 
 ---
- arch/sh/Kconfig                  |  7 +++++++
- arch/sh/boards/Kconfig           |  6 ++++++
- arch/sh/boards/Makefile          |  1 +
- arch/sh/boards/mach-saturn/Kconfig |  5 +++++
- arch/sh/boards/mach-saturn/Makefile |  1 +
- arch/sh/boards/mach-saturn/setup.c | 12 ++++++++++++
- 6 files changed, 32 insertions(+)
+ vendor/linux-4.0/arch/sh/Kconfig                  |  7 +++++++
+ vendor/linux-4.0/arch/sh/boards/Kconfig           |  2 ++
+ vendor/linux-4.0/arch/sh/boards/Makefile          |  1 +
+ vendor/linux-4.0/arch/sh/boards/mach-saturn/Kconfig |  5 +++++
+ vendor/linux-4.0/arch/sh/boards/mach-saturn/Makefile |  1 +
+ vendor/linux-4.0/arch/sh/boards/mach-saturn/setup.c | 12 ++++++++++++
+ 6 files changed, 28 insertions(+)
 
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -240,6 +240,13 @@ config CPU_SUBTYPE_SH7619
- 	bool "SH7619"
+--- a/vendor/linux-4.0/arch/sh/Kconfig
++++ b/vendor/linux-4.0/arch/sh/Kconfig
+@@ -239,6 +239,13 @@ config CPU_SUBTYPE_SH7619
  	select CPU_SH2
+ 	select SYS_SUPPORTS_SH_CMT
  
 +config CPU_SUBTYPE_SEGA_SATURN
-+	bool "Sega Saturn SH-2"
++	bool "Support Sega Saturn SH-2 processor"
 +	select CPU_SH2
 +	help
 +	  Select this option for the Hitachi SH-2 processors used by the
 +	  Sega Saturn.
 +
- config CPU_SUBTYPE_SH7206
- 	bool "SH7206"
- 	select CPU_SH2
---- a/arch/sh/boards/Kconfig
-+++ b/arch/sh/boards/Kconfig
-@@ -1,5 +1,11 @@
+ # SH-2A Processor Support
+ 
+ config CPU_SUBTYPE_SH7201
+--- a/vendor/linux-4.0/arch/sh/boards/Kconfig
++++ b/vendor/linux-4.0/arch/sh/boards/Kconfig
+@@ -1,4 +1,6 @@
  menu "Board support"
  
-+config SH_SATURN
-+	bool "Sega Saturn"
-+	depends on CPU_SUBTYPE_SEGA_SATURN
-+	help
-+	  Enable support for the Sega Saturn platform.
++source "arch/sh/boards/mach-saturn/Kconfig"
 +
  config SOLUTION_ENGINE
  	bool
---- a/arch/sh/boards/Makefile
-+++ b/arch/sh/boards/Makefile
-@@ -1,5 +1,6 @@
+--- a/vendor/linux-4.0/arch/sh/boards/Makefile
++++ b/vendor/linux-4.0/arch/sh/boards/Makefile
+@@ -1,6 +1,7 @@
  #
  # Specific board support, not covered by a mach group.
  #
 +obj-$(CONFIG_SH_SATURN) += mach-saturn/
  obj-$(CONFIG_SH_MAGIC_PANEL_R2) += board-magicpanelr2.o
  obj-$(CONFIG_SH_SECUREEDGE5410) += board-secureedge5410.o
+ obj-$(CONFIG_SH_SH2007)         += board-sh2007.o
 --- /dev/null
-+++ b/arch/sh/boards/mach-saturn/Kconfig
++++ b/vendor/linux-4.0/arch/sh/boards/mach-saturn/Kconfig
 @@ -0,0 +1,5 @@
 +config SH_SATURN
 +	bool "Sega Saturn"
@@ -63,11 +60,11 @@ for later bring-up stages.
 +	help
 +	  Enable support for the Sega Saturn platform.
 --- /dev/null
-+++ b/arch/sh/boards/mach-saturn/Makefile
++++ b/vendor/linux-4.0/arch/sh/boards/mach-saturn/Makefile
 @@ -0,0 +1 @@
 +obj-y := setup.o
 --- /dev/null
-+++ b/arch/sh/boards/mach-saturn/setup.c
++++ b/vendor/linux-4.0/arch/sh/boards/mach-saturn/setup.c
 @@ -0,0 +1,12 @@
 +#include <linux/init.h>
 +#include <asm/machvec.h>
