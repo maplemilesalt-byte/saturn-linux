@@ -1,0 +1,13 @@
+#
+# Sega Saturn machine support
+#
+
+config SH_SATURN
+	bool "Sega Saturn"
+	depends on CPU_SUBTYPE_SEGA_SATURN
+	help
+	  Enable support for the Sega Saturn console platform.
+
+	  This is an experimental Linux 4.x port targeting the Saturn's
+	  dual Hitachi SH-2 processors. The initial bring-up intentionally
+	  supports one CPU and only the minimum platform code.
